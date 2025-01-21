@@ -1,5 +1,5 @@
 
-let quote = "";
+let quote_text = "";
 let quote_author = "";
 const container = document.querySelector("#quote-container");
 const loader = document.querySelector(".loader");
@@ -19,13 +19,11 @@ const getQuotes = async () => {
     try {
         const response = await fetch(url, options);
         const result = await response.json(); // Parse response as JSON
-        quoteText = result?.content || "No quote available";
+        quote_text = result?.content || "No quote available";
         quote_author = result?.originator?.name || "Unknown author";
 
-        const quote = document.getElementById('quote');
-        quote.innerHTML = quoteText;
-        const author = document.getElementById('author');
-        author.innerHTML = quote_author;
+        document.getElementById('quote').innerHTML = quote_text ;
+        document.getElementById('author').innerHTML = quote_author;
 
         loader.classList.add("hidden");
         container.classList.remove("hidden");
@@ -46,8 +44,17 @@ getQuotes();
 const newQuoteBtn = document.getElementById('new-quote');
 newQuoteBtn.addEventListener("click", () => {
     getQuotes();
-
 })
 
 
+
+//clicking on the twitter button
+const twitter = document.getElementById('twitter');
+twitter.addEventListener("click",()=>{
+    sendToTwitter();
+})
+const sendToTwitter = () =>{
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${quote_text} - ${quote_author}`;
+    window.open(twitterUrl , '_blank');
+}
 
